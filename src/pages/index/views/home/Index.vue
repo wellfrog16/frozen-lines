@@ -24,7 +24,7 @@
                     :style="linesStyle(item.name)"
                 >
                     <span>{{ item.name }}</span>
-                    <p v-html="item.en"></p>
+                    <p v-html="item.words"></p>
                 </li>
             </ul>
         </div>
@@ -45,7 +45,7 @@ export default {
     data() {
         return {
             activeIndex: 1,
-            popupShow: true,
+            popupShow: false,
             lines,
             options,
             myScroll: null,
@@ -60,6 +60,8 @@ export default {
         activeIndex() {
             setTimeout(() => {
                 this.myScroll.refresh();
+                this.myScroll.scrollTo(0, 0, 1000);
+                this.popupShow = false;
             }, 0);
         },
     },
@@ -67,9 +69,7 @@ export default {
         const h = document.body.clientHeight;
         document.querySelector('#wrapper').style.height = `${h}px`;
         setTimeout(() => {
-            this.myScroll = new BScroll('#wrapper', {
-                scrollbars: true,
-            });
+            this.myScroll = new BScroll('#wrapper');
         }, 1000);
     },
     methods: {

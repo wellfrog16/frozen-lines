@@ -1,4 +1,4 @@
-# template-vue-clear
+# frozen-lines
 
 ## Project setup
 ```

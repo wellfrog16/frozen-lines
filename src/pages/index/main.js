@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import store from './store';
+// import store from './store';
 import router from './helper/router';
 import App from './App.vue';
 import { helper } from '@/helper/lakes';
@@ -24,6 +24,6 @@ Vue.prototype.$utils = utils;
 
 window.vueIndex = new Vue({
     router,
-    store,
+    // store,
     render: h => h(App),
 }).$mount('#app');

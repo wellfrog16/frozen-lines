@@ -18,7 +18,6 @@ const {
     Split,
     BMap,
     Cropper,
-    IScroll,
     BScroll,
 } = window;
 
@@ -48,6 +47,5 @@ export {
     Split, // 分割布局
     BMap, // 百度地图
     Cropper, // 图片剪切
-    IScroll,
-    BScroll,
+    BScroll, // 滚动条组件
 };
