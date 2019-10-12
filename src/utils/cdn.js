@@ -18,6 +18,8 @@ const {
     Split,
     BMap,
     Cropper,
+    IScroll,
+    BScroll,
 } = window;
 
 const baseCdn = 'https://cdn.jsdelivr.net';
@@ -46,4 +48,6 @@ export {
     Split, // 分割布局
     BMap, // 百度地图
     Cropper, // 图片剪切
+    IScroll,
+    BScroll,
 };

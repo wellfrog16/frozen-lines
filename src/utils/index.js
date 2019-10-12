@@ -1,5 +1,5 @@
 import {
-    $, _,
+    _,
 } from '@/utils/cdn';
 
 
@@ -36,11 +36,9 @@ function getUrlParam(url) {
  * @param {number} [maxSize=75]
  */
 function setRootSize(maxSize = 75) {
-    $(() => {
-        let fontSize = window.innerWidth / 10;
-        fontSize = fontSize > maxSize ? maxSize : fontSize;
-        $('html').css('font-size', fontSize);
-    });
+    let fontSize = window.innerWidth / 10;
+    fontSize = fontSize > maxSize ? maxSize : fontSize;
+    document.querySelector('html').style.fontSize = `${fontSize}px`;
 }
 
 /**
@@ -48,8 +46,8 @@ function setRootSize(maxSize = 75) {
  *
  */
 function autoRootSize() {
-    $(window).on('resize', () => setRootSize());
-    $(() => setRootSize());
+    window.addEventListener('resize', () => setRootSize());
+    window.addEventListener('load', () => setRootSize());
 }
 
 /**

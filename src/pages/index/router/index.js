@@ -1,53 +1,21 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from '#index/views/login/Index.vue';
 
 // 路由模块
-import routeResearch from './modules/research';
-import routeDocument from './modules/document';
 import routeHome from './modules/home';
-import routeSecurity from './modules/security';
 
 Vue.use(Router);
-
-// 一个空模板，方便子节点使用
-// const Root = Vue.component('root', {
-//     template: '<router-view></router-view>',
-// });
 
 // 静态路由，不参与权限验证
 const staticRoutes = [
     {
         path: '',
-        redirect: { path: '/login' },
-        meta: {
-            hidden: true,
-        },
+        redirect: { path: '/home' },
     },
-    {
-        path: '/login',
-        component: Login,
-        meta: {
-            title: '登入界面',
-            hidden: true,
-        },
-    },
-    {
-        path: '/401',
-        component: () => import('#index/views/error/401.vue'),
-        meta: {
-            title: '401',
-            hidden: true,
-        },
-    },
+    routeHome,
 ];
 
-const asyncRoutes = [
-    routeHome,
-    routeDocument,
-    routeResearch,
-    routeSecurity,
-];
+const asyncRoutes = [];
 
 const scrollBehavior = (to, from, savedPosition) => {
     if (savedPosition) {

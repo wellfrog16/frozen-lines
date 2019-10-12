@@ -14,6 +14,9 @@ import '@/directive';
 // 插件
 import '@/plugins';
 
+// rem支持
+utils.autoRootSize();
+
 Vue.config.productionTip = false;
 
 Vue.prototype.$helper = helper;
