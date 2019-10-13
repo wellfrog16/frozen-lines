@@ -90,7 +90,7 @@ export const lines = [
             { name: ANNA, words: 'Again' },
             { name: ELSA, words: 'Wait, Slow down! Anna!' },
             { name: ELSA, words: 'You\'re okay, Anna. I got you.' },
-            { name: BABA, words: 'Else, what have you done? This is gettinh out of hand!' },
+            { name: BABA, words: 'Elsa, what have you done? This is getting out of hand!' },
             { name: ELSA, words: 'It was an accident. I\'m sorry, Anna.' },
             { name: MAMA, words: 'She\'s ice cold.' },
             { name: BABA, words: 'I know where we have to go.' },
