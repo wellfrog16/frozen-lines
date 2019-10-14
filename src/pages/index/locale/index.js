@@ -37,7 +37,7 @@ export function getLanguage() {
     let lang = 'en-US';
 
     // 地址栏获取
-    const matches = window.location.href.match(/[?&]lang=([a-z-]+)($|#|&)/);
+    const matches = window.location.href.match(/[?&]lang=([a-zA-Z-]+)($|#|&)/);
     if (matches) {
         [, lang] = matches;
         return lang;
