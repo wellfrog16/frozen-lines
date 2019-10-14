@@ -14,6 +14,11 @@ import '@/directive';
 // 插件
 import '@/plugins';
 
+// 多语言
+import { i18n } from '#index/locale';
+
+localStorage.removeItem('lang');
+
 // rem支持
 utils.autoRootSize();
 
@@ -24,6 +29,7 @@ Vue.prototype.$utils = utils;
 
 window.vueIndex = new Vue({
     router,
+    i18n,
     // store,
     render: h => h(App),
 }).$mount('#app');

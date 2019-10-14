@@ -1,5 +1,12 @@
 <template>
-    <div :class="['main-wrapper', $style.main]" v-swiperight="handleSwiperight">
+    <div
+        :class="['main-wrapper', $style.main]"
+        v-swiperight="handleSwiperight"
+        @touchstart="handleTouchstart"
+        @touchend="handleTouchend"
+        @touchmove="handleTouchmove"
+    >
+        <!-- 左侧导航 -->
         <van-popup
             v-model="popupShow"
             position="left"
@@ -15,7 +22,7 @@
             </van-sidebar>
         </van-popup>
 
-        <!--  -->
+        <!-- 台词区 -->
         <div id="wrapper" :class="$style.wrapper">
             <ul :class="$style.lines">
                 <li
@@ -33,7 +40,8 @@
 
 <script>
 import { Sidebar, SidebarItem, Popup } from 'vant';
-import { lines, options } from './lines-data';
+import { options } from '#index/locale/role';
+import { loadLanguageAsync, getLanguage } from '#index/locale';
 import { BScroll } from '@/utils/cdn';
 
 export default {
@@ -46,14 +54,16 @@ export default {
         return {
             activeIndex: 1,
             popupShow: false,
-            lines,
+            lines: this.$t('lines'),
             options,
             myScroll: null,
+            translateTimeId: null,
+            startLang: '',
         };
     },
     computed: {
         currentLines() {
-            return lines[this.activeIndex];
+            return this.$t('lines')[this.activeIndex];
         },
     },
     watch: {
@@ -73,9 +83,36 @@ export default {
         }, 1000);
     },
     methods: {
+        // 右滑显示导航
         handleSwiperight() {
             this.popupShow = true;
         },
+
+        // 长按显示中文
+        handleTouchstart() {
+            this.translateTimeId = setTimeout(() => {
+                loadLanguageAsync('zh-CN');
+            }, 500);
+        },
+
+        // 松开恢复英文
+        handleTouchend() {
+            this.startLang = '';
+            clearTimeout(this.translateTimeId);
+            loadLanguageAsync('en-US');
+        },
+
+        // 移动时保持原有语言
+        handleTouchmove() {
+            if (!this.startLang) {
+                this.startLang = getLanguage();
+            }
+            if (this.startLang === 'en-US') {
+                clearTimeout(this.translateTimeId);
+            }
+        },
+
+        // 动态台词样式
         linesStyle(name) {
             const option = options.actor[name];
             return {
