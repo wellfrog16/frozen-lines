@@ -31,7 +31,7 @@
                     :style="linesStyle(item.name)"
                 >
                     <span>{{ item.name }}</span>
-                    <p v-html="item.words"></p>
+                    <p v-html="item.words" :class="item.class"></p>
                 </li>
             </ul>
         </div>
@@ -52,7 +52,7 @@ export default {
     },
     data() {
         return {
-            activeIndex: 1,
+            activeIndex: 0,
             popupShow: false,
             lines: this.$t('lines'),
             options,
@@ -67,15 +67,19 @@ export default {
         },
     },
     watch: {
-        activeIndex() {
+        activeIndex(val) {
             setTimeout(() => {
-                this.myScroll.refresh();
-                this.myScroll.scrollTo(0, 0, 1000);
-                this.popupShow = false;
+                if (this.myScroll) {
+                    this.myScroll.refresh();
+                    this.myScroll.scrollTo(0, 0, 1000);
+                    this.popupShow = false;
+                    localStorage.setItem('frozen-active', val);
+                }
             }, 0);
         },
     },
     mounted() {
+        this.activeIndex = localStorage.getItem('frozen-active') || 0;
         const h = document.body.clientHeight;
         document.querySelector('#wrapper').style.height = `${h}px`;
         setTimeout(() => {
@@ -127,6 +131,10 @@ export default {
 <style lang="less" module>
 .main {
     height: 100%;
+
+    :global(.row2) {
+        height: 48px;
+    }
 }
 
 .wrapper {
