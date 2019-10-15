@@ -2,6 +2,7 @@
     <div
         :class="['main-wrapper', $style.main]"
         v-swiperight="handleSwiperight"
+        v-tap="handleTap"
         @touchstart="handleTouchstart"
         @touchend="handleTouchend"
         @touchmove="handleTouchmove"
@@ -43,6 +44,7 @@ import { Sidebar, SidebarItem, Popup } from 'vant';
 import { options } from '#index/locale/role';
 import { loadLanguageAsync, getLanguage } from '#index/locale';
 import { BScroll } from '@/utils/cdn';
+import apiTranslate from '@/api/sys/translate';
 
 export default {
     components: {
@@ -116,6 +118,14 @@ export default {
             }
         },
 
+        handleTap(ev) {
+            console.log(ev.target.nodeName);
+            console.log(ev.target.innerText);
+            apiTranslate(ev.target.innerText).then((res) => {
+                console.log(res);
+            });
+        },
+
         // 动态台词样式
         linesStyle(name) {
             const option = options.actor[name];
@@ -134,6 +144,11 @@ export default {
 
     :global(.row2) {
         height: 48px;
+    }
+
+    em {
+        font-style: normal;
+        text-decoration: underline;
     }
 }
 
