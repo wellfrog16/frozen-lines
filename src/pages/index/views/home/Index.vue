@@ -28,10 +28,10 @@
                 <li
                     v-for="(item, index) in currentLines.lines"
                     :key="index"
-                    :style="linesStyle(item.name)"
+                    :style="linesStyle(item[0])"
                 >
-                    <span>{{ item.name }}</span>
-                    <p v-html="item.words" :class="item.class"></p>
+                    <span>{{ item[0] }}</span>
+                    <p v-html="item[1]" :class="item[2]"></p>
                 </li>
             </ul>
         </div>
