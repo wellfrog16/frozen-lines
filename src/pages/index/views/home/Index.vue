@@ -123,6 +123,7 @@ export default {
             console.log(ev.target.innerText);
             apiTranslate(ev.target.innerText).then((res) => {
                 console.log(res);
+                // alert(res);
             });
         },
 
