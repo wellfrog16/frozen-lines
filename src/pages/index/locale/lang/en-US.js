@@ -16,7 +16,7 @@ export default {
             name: '开场',
             lines: [
                 [EVERY, 'Born of cold and winter air and mountain rain <em>combining</em>', 'row2'],
-                [EVERY, 'This icy force both foul and fair'],
+                [EVERY, 'This icy force both <em>foul</em> and fair'],
                 [EVERY, 'Has a frozen heart worth mining'],
                 [EVERY, 'So cut through the heart, cold and clear'],
                 [EVERY, 'Strike for love and strike for fear'],

@@ -9,7 +9,6 @@ const settings = {
         [PAGE]: 1,
         [PAGE_SIZE]: 30,
     },
-    uploadName: 'avatar',
 };
 
 // 借助jquery进行深度复制和合并

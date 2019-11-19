@@ -36,31 +36,46 @@
                 </li>
             </ul>
         </div>
+
+        <!-- 翻译结果 -->
+        <translate :visible.sync="translateVisible" :word="word" />
+
+        <van-loading />
     </div>
 </template>
 
 <script>
-import { Sidebar, SidebarItem, Popup } from 'vant';
-import { options } from '#index/locale/role';
+import {
+    Sidebar,
+    SidebarItem,
+    Popup,
+    Loading,
+} from 'vant';
+import { options } from '#index/locale/role'; // 角色信息
 import { loadLanguageAsync, getLanguage } from '#index/locale';
 import { BScroll } from '@/utils/cdn';
 import apiTranslate from '@/api/sys/translate';
+import Translate from './components/translate.vue';
 
 export default {
     components: {
         VanSidebar: Sidebar,
         VanSidebarItem: SidebarItem,
         VanPopup: Popup,
+        VanLoading: Loading,
+        Translate,
     },
     data() {
         return {
-            activeIndex: 0,
-            popupShow: false,
-            lines: this.$t('lines'),
+            activeIndex: 0, // 当前选项卡
+            popupShow: false, // popuo是否显示（左侧导航）
+            lines: this.$t('lines'), // 台词
             options,
             myScroll: null,
             translateTimeId: null,
-            startLang: '',
+            startLang: '', // 语言
+            translateVisible: false, // 翻译对话框的显示
+            word: null, // 翻译回传的结果
         };
     },
     computed: {
@@ -121,7 +136,12 @@ export default {
         handleTap(ev) {
             console.log(ev.target.nodeName);
             console.log(ev.target.innerText);
-            apiTranslate(ev.target.innerText).then((res) => {
+            const { nodeName, innerText } = ev.target;
+
+            if (nodeName !== 'EM') { return; }
+
+            this.translateVisible = true;
+            apiTranslate(innerText).then((res) => {
                 console.log(res);
                 // alert(res);
             });
