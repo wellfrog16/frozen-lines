@@ -40,7 +40,9 @@
         <!-- 翻译结果 -->
         <translate :visible.sync="translateVisible" :word="word" />
 
-        <van-loading />
+        <van-overlay :show="loading" class="flex-center">
+            <van-loading />
+        </van-overlay>
     </div>
 </template>
 
@@ -50,6 +52,7 @@ import {
     SidebarItem,
     Popup,
     Loading,
+    Overlay,
 } from 'vant';
 import { options } from '#index/locale/role'; // 角色信息
 import { loadLanguageAsync, getLanguage } from '#index/locale';
@@ -63,6 +66,7 @@ export default {
         VanSidebarItem: SidebarItem,
         VanPopup: Popup,
         VanLoading: Loading,
+        VanOverlay: Overlay,
         Translate,
     },
     data() {
@@ -75,7 +79,8 @@ export default {
             translateTimeId: null,
             startLang: '', // 语言
             translateVisible: false, // 翻译对话框的显示
-            word: null, // 翻译回传的结果
+            word: {}, // 翻译回传的结果
+            loading: false,
         };
     },
     computed: {
@@ -134,16 +139,15 @@ export default {
         },
 
         handleTap(ev) {
-            console.log(ev.target.nodeName);
-            console.log(ev.target.innerText);
             const { nodeName, innerText } = ev.target;
 
             if (nodeName !== 'EM') { return; }
 
-            this.translateVisible = true;
+            this.loading = true;
             apiTranslate(innerText).then((res) => {
-                console.log(res);
-                // alert(res);
+                this.loading = false;
+                this.translateVisible = true;
+                this.word = res.word;
             });
         },
 
@@ -205,5 +209,9 @@ export default {
         padding: 5px;
         line-height: 1.5em;
     }
+}
+
+.loading {
+    line-height: 1;
 }
 </style>
