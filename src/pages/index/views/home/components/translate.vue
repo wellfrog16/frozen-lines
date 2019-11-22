@@ -1,9 +1,10 @@
 <template>
     <van-dialog v-model="show" get-container="body">
         <div :class="$style.wrapper">
+            <h4>{{ word.name }}</h4>
             <van-grid :column-num="2">
                 <van-grid-item
-                    v-for="(item, index) in voice"
+                    v-for="(item, index) in word.voice"
                     :key="index"
                     icon="play-circle-o"
                     :text="`${item.name} ${item.ph}`"
@@ -11,7 +12,7 @@
                 />
             </van-grid>
             <ul>
-                <li v-for="(item, index) in parts" :key="index">
+                <li v-for="(item, index) in word.parts" :key="index">
                     {{ item.part }}
                     {{ item.means.join(';') }}
                 </li>
@@ -33,11 +34,6 @@ export default {
         VanGrid: Grid,
         VanGridItem: GridItem,
     },
-    // data() {
-    //     return {
-    //         show: true,
-    //     };
-    // },
     computed: {
         show: {
             get() {
@@ -46,36 +42,6 @@ export default {
             set(val) {
                 this.$emit('update:visible', val);
             },
-        },
-
-        // 单词信息
-        symbol() {
-            const { symbols } = this.word;
-            if (Array.isArray(symbols) && symbols[0]) {
-                return symbols[0];
-            }
-            return {};
-        },
-
-        // 单词所有的含义数组
-        parts() {
-            return this.symbol.parts;
-        },
-
-        // 单词的美式/英式音标和音频
-        voice() {
-            return [
-                {
-                    name: '英',
-                    ph: this.symbol.ph_en,
-                    mp3: this.symbol.ph_en_mp3 || this.symbol.ph_tts_mp3,
-                },
-                {
-                    name: '美',
-                    ph: this.symbol.ph_am,
-                    mp3: this.symbol.ph_am_mp3 || this.symbol.ph_tts_mp3,
-                },
-            ];
         },
     },
     methods: {
@@ -91,9 +57,12 @@ export default {
     padding: 24px 0;
     position: relative;
 
-    // :global([class*=van-hairline]::after) {
-    //     border: 0;
-    // }
+    h4 {
+        margin: 0;
+        text-align: center;
+        margin-bottom: 12px;
+        font-size: 1.5em;
+    }
 
     ul {
         margin-top: 24px;

@@ -148,6 +148,7 @@ export default {
                 this.loading = false;
                 this.translateVisible = true;
                 this.word = res.word;
+                console.log(res);
             });
         },
 
