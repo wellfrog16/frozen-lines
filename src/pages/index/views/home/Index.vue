@@ -3,9 +3,9 @@
         :class="['main-wrapper', $style.main]"
         v-swiperight="handleSwiperight"
         v-tap="handleTap"
-        @touchstart="handleTouchstart"
-        @touchend="handleTouchend"
-        @touchmove="handleTouchmove"
+        v-press="handlePress"
+        v-pressup="handlePressup"
+        v-panend="handlePressup"
     >
         <!-- 左侧导航 -->
         <van-popup
@@ -27,7 +27,7 @@
         <div id="wrapper" :class="$style.wrapper">
             <ul :class="$style.lines">
                 <li
-                    v-for="(item, index) in currentLines.lines"
+                    v-for="(item, index) in currentLines"
                     :key="index"
                     :style="linesStyle(item[0])"
                 >
@@ -55,10 +55,14 @@ import {
     Overlay,
 } from 'vant';
 import { options } from '#index/locale/role'; // 角色信息
-import { loadLanguageAsync, getLanguage } from '#index/locale';
+import { loadLanguageAsync } from '#index/locale';
 import { BScroll } from '@/utils/cdn';
 import apiTranslate from '@/api/sys/translate';
 import Translate from './components/translate.vue';
+import newWords from './new-words';
+
+const EN = 'en-US';
+const CN = 'zh-CN';
 
 export default {
     components: {
@@ -77,15 +81,26 @@ export default {
             options,
             myScroll: null,
             translateTimeId: null,
-            startLang: '', // 语言
             translateVisible: false, // 翻译对话框的显示
             word: {}, // 翻译回传的结果
             loading: false,
         };
     },
     computed: {
+        // 当前页台词
         currentLines() {
-            return this.$t('lines')[this.activeIndex];
+            const lang = this.$t('lang');
+            const { lines } = this.$t('lines')[this.activeIndex];
+
+            if (lang === EN) {
+                // 注入生词
+                return lines.map(line => [
+                    line[0],
+                    newWords.inject(line[1], newWords.list),
+                    line[2],
+                ]);
+            }
+            return lines;
         },
     },
     watch: {
@@ -115,40 +130,25 @@ export default {
         },
 
         // 长按显示中文
-        handleTouchstart() {
-            this.translateTimeId = setTimeout(() => {
-                loadLanguageAsync('zh-CN');
-            }, 500);
+        handlePress() {
+            loadLanguageAsync(CN);
         },
 
         // 松开恢复英文
-        handleTouchend() {
-            this.startLang = '';
-            clearTimeout(this.translateTimeId);
-            loadLanguageAsync('en-US');
+        handlePressup() {
+            loadLanguageAsync(EN);
         },
 
-        // 移动时保持原有语言
-        handleTouchmove() {
-            if (!this.startLang) {
-                this.startLang = getLanguage();
-            }
-            if (this.startLang === 'en-US') {
-                clearTimeout(this.translateTimeId);
-            }
-        },
-
+        // 点击翻译
         handleTap(ev) {
             const { nodeName, innerText } = ev.target;
-
             if (nodeName !== 'EM') { return; }
 
             this.loading = true;
-            apiTranslate(innerText).then((res) => {
+            apiTranslate(innerText.toLowerCase()).then((res) => {
                 this.loading = false;
                 this.translateVisible = true;
                 this.word = res.word;
-                console.log(res);
             });
         },
 
