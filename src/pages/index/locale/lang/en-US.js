@@ -79,7 +79,7 @@ export default {
                 [TROLLS, 'He is the King!'],
                 [ME, 'Trolls...?'],
                 [TROLLS, 'Shush. I\'m trying to listen.'],
-                [TROLLS, 'Cuties. I\'m gonna keep you.'],
+                [TROLLS, 'Cuties[Cutie]. I\'m gonna keep you.'],
                 [TROLLS, 'Your Majesty.'],
                 [TROLLS, 'Born with the powers or cursed?'],
                 [BABA, 'Born. And they\'re getting stronger.'],
